@@ -6,6 +6,97 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
+
+enum Role {
+  USER
+  ADMIN
+  DEVELOPER
+}
+
+enum EventType {
+  ERROR
+  USER
+  ADMIN
+  DEVELOPER
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  password  String
+  profile   Profile?
+  item      Item[]
+  vote      Vote?
+  username  String    @default("")
+  role      Role      @default(USER)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model Profile {
+  id              Int     @id @default(autoincrement())
+  userId          Int     @unique
+  user            User    @relation(fields: [userId], references: [id])
+  firstName       String
+  lastName        String
+  bio             String?
+  githubUrl       String?
+  profileImageUrl String? @default("https://www.pngfind.com/pngs/m/676-6764065_default-profile-picture-transparent-hd-png-download.png")
+}
+
+model Totals {
+  id          Int       @unique @default(1)
+  name    String        
+  totolNumber Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+}
+
+model Item {
+  id        Int       @unique @default(autoincrement())
+  name      String    @unique
+  imageUrl  String
+  desc      String
+  cost      Int
+  rating    Int       @default(5)
+  votes     Votes[]
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  isPinned  Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model Votes {
+  id         Int    @unique @default(autoincrement())
+  itemId     Int
+  totalScore Int
+  item       Item   @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  vote       Vote[]
+}
+
+model Vote {
+  id      Int   @unique @default(autoincrement())
+  score   Int
+  votesId Int
+  vote    Votes @relation(fields: [votesId], references: [id], onDelete: Cascade)
+  userId  Int   @unique
+  user    User  @relation(fields: [userId], references: [id])
+}
+
+// model Event {
+//   id        Int       @id @default(autoincrement())
+//   type      EventType
+//   topic     String?
+//   content   String?
+//   // createdBy    User?     @relation("createdEvents", fields: [createdById], references: [id], onDelete: Cascade)
+//   // createdById  Int?
+//   // receivedBy   User?     @relation("receivedEvents", fields: [receivedById], references: [id], onDelete: Cascade)
+//   // receivedById Int?
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime? @updatedAt
+// }

@@ -1,0 +1,9 @@
+PORT=8080
+
+JWT_SECRET = "tomsaccesstoken"
+JWT_REFRESH_SECRET = "tomsaccesstokenrefreshed"
+
+DATABASE_URL="postgres://rivnxrhh:EaoLJz9mHkme219x12Gj1spy0YpXfMgf@lucky.db.elephantsql.com/rivnxrhh?schema=prisma"
+SHADOW_DATABASE_URL="postgres://ixwkwqoc:f-q-c3G2YOYIv9gbkNBJuduEf-YiSS68@lucky.db.elephantsql.com/ixwkwqoc?schema=shadow"
+JWT_EXPIRY="1h"
+JWT_REFRESH_EXPIRY="7d"

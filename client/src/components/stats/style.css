@@ -1,0 +1,11 @@
+.stats__container {
+    display: grid;
+    justify-content: center;
+    border: 2px solid var(--color-primary);
+    border-radius: var(--border-radius--st);
+    width: 50%;
+}
+
+.stats__stats__container {
+
+}

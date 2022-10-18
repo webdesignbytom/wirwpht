@@ -19,9 +19,6 @@ enum Role {
 
 enum EventType {
   ERROR
-  USER
-  ADMIN
-  DEVELOPER
 }
 
 model User {
@@ -44,7 +41,6 @@ model Profile {
   firstName       String
   lastName        String
   bio             String?
-  githubUrl       String?
   profileImageUrl String? @default("https://www.pngfind.com/pngs/m/676-6764065_default-profile-picture-transparent-hd-png-download.png")
 }
 
